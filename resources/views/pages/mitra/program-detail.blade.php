@@ -14,16 +14,17 @@
 <body style="background: var(--dash-bg);">
 
 <nav>
-    <div class="logo" onclick="window.location.href='/pages/mitra/dashboard'" style="cursor:pointer;">
-        <span style="font-size:1.2rem;margin-right:8px;">←</span> Kembali ke Dashboard Mitra
-    </div>
+    <a href="/pages/mitra/dashboard" class="back-link">
+        <span style="font-size:1.2rem;line-height:1;">←</span>
+        Kembali
+    </a>
 </nav>
 
 <div id="toast" class="toast"></div>
 
-<div class="dashboard-container" style="padding-top:72px;">
+<div class="dashboard-container" style="padding-top:16px;">
     <!-- FULL WIDTH MAIN -->
-    <main class="dash-main" style="margin-left:0; max-width:1200px; margin: 0 auto; padding-top: 40px;">
+    <main class="dash-main" style="margin-left:0; max-width:1200px; margin: 0 auto; padding-top: 12px;">
         
         <div class="dash-card">
             <!-- Cover Program -->
@@ -44,6 +45,10 @@
                     <div style="color:var(--text-muted);font-size:0.95rem;">
                         <span id="prog-bidang">-</span> · <span id="prog-peserta">0</span> Peserta
                     </div>
+                    <div style="color:var(--text-muted);font-size:0.9rem;margin-top:6px;display:flex;gap:20px;flex-wrap:wrap;">
+                        <span style="display:inline-flex;align-items:center;gap:4px;"><span class="material-icons" style="font-size:16px;">event_note</span> Pendaftaran: <strong id="prog-reg-period">-</strong></span>
+                        <span style="display:inline-flex;align-items:center;gap:4px;"><span class="material-icons" style="font-size:16px;">calendar_today</span> Pelaksanaan: <strong id="prog-exec-period">-</strong></span>
+                    </div>
                 </div>
                 <div style="display:flex;gap:12px;" id="action-buttons">
                     <!-- Injected -->
@@ -53,7 +58,7 @@
             <!-- TABS -->
             <div style="display:flex;gap:24px;border-bottom:1px solid var(--dash-border);margin-bottom:24px;">
                 <div class="tab-btn active" onclick="switchTab('tasks')" style="padding:12px 16px;cursor:pointer;font-weight:600;border-bottom:3px solid var(--dash-accent);color:var(--dash-accent);" id="tab-tasks">Manajemen Task</div>
-                <div class="tab-btn" onclick="switchTab('mentors')" style="padding:12px 16px;cursor:pointer;font-weight:600;border-bottom:3px solid transparent;color:var(--text-muted);" id="tab-mentors">Assign Mentor</div>
+                <div class="tab-btn" onclick="switchTab('mentors')" style="padding:12px 16px;cursor:pointer;font-weight:600;border-bottom:3px solid transparent;color:var(--text-muted);" id="tab-mentors">Daftar Mentor</div>
                 <div class="tab-btn" onclick="switchTab('leaderboard')" style="padding:12px 16px;cursor:pointer;font-weight:600;border-bottom:3px solid transparent;color:var(--text-muted);" id="tab-leaderboard">Leaderboard Peserta</div>
             </div>
 
@@ -72,16 +77,9 @@
             <!-- MENTORS TAB -->
             <div id="content-mentors" style="display:none;">
                 <h3 style="margin-top:0;margin-bottom:8px;">Mentor Program</h3>
-                <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:20px;">Assign mentor terafiliasi untuk membantu mereview submission peserta di program ini.</p>
+                <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:20px;">Daftar mentor terafiliasi yang membantu mereview submission peserta di program ini.</p>
                 
-                <div style="display:flex;gap:12px;margin-bottom:24px;max-width:500px;">
-                    <select id="mentor-select" style="flex:1;padding:10px 14px;border:1px solid var(--dash-border);border-radius:8px;">
-                        <option value="">-- Pilih Mentor Terafiliasi --</option>
-                    </select>
-                    <button class="btn-dash btn-dash-primary" onclick="assignMentor()">Assign</button>
-                </div>
-
-                <div class="program-list" id="assigned-mentors">
+                    <div class="program-list" id="assigned-mentors">
                     <p>Memuat...</p>
                 </div>
             </div>
@@ -98,12 +96,13 @@
                                 <th style="padding: 12px 16px;">Peringkat</th>
                                 <th style="padding: 12px 16px;">Nama Peserta</th>
                                 <th style="padding: 12px 16px;">Universitas</th>
-                                <th style="padding: 12px 16px;">Total Poin Program</th>
+                                <th style="padding: 12px 16px; text-align: center; width: 200px;">Progress</th>
+                                <th style="padding: 12px 16px;">Total Nilai Tugas</th>
                             </tr>
                         </thead>
                         <tbody id="leaderboard-table">
                             <tr>
-                                <td colspan="4" style="padding: 20px; text-align: center; color: var(--text-muted);">Belum ada data peringkat peserta.</td>
+                                <td colspan="5" style="padding: 20px; text-align: center; color: var(--text-muted);">Belum ada data peringkat peserta.</td>
                             </tr>
                         </tbody>
                     </table>
@@ -166,7 +165,6 @@ fetch('/api/session').then(r => r.json()).then(d => {
     if (!d.loggedIn || d.user.role !== 'mitra') window.location.href = '/';
     else {
         loadProgramDetail();
-        loadAvailableMentors();
     }
 });
 
@@ -183,7 +181,15 @@ function loadProgramDetail() {
             const p = d.data;
             document.getElementById('prog-judul').textContent = p.judul;
             document.getElementById('prog-bidang').textContent = p.bidang || 'Umum';
-            document.getElementById('prog-peserta').textContent = p.enrollments.length;
+            document.getElementById('prog-peserta').textContent = p.enrolled ?? 0;
+
+            const regMulai = p.registrasi_mulai || '-';
+            const regSelesai = p.registrasi_selesai || '-';
+            document.getElementById('prog-reg-period').textContent = `${regMulai} s.d. ${regSelesai}`;
+
+            const tglMulai = p.tanggal_mulai || '-';
+            const tglSelesai = p.tanggal_selesai || '-';
+            document.getElementById('prog-exec-period').textContent = `${tglMulai} s.d. ${tglSelesai}`;
 
             if (p.cover_image) {
                 const src = p.cover_image.startsWith('http') || p.cover_image.startsWith('/') 
@@ -215,7 +221,7 @@ function loadProgramDetail() {
             } else {
                 taskContainer.innerHTML = p.tasks.map((t, i) => `
                     <div class="program-item" style="cursor:default;">
-                        <div class="prog-icon" style="background:#f1f5f9;color:var(--text);font-weight:700;">${i+1}</div>
+                        <div class="prog-icon" style="background:var(--dash-bg);color:var(--text);font-weight:700;">${i+1}</div>
                         <div class="prog-info">
                             <h4 style="font-size:1.05rem;">${t.judul}</h4>
                             <p style="white-space:pre-line;margin-top:8px;">${t.deskripsi || ''}</p>
@@ -236,8 +242,8 @@ function loadProgramDetail() {
                     <div class="program-item" style="cursor:default;">
                         <div class="prog-icon"><span class="material-icons">supervisor_account</span></div>
                         <div class="prog-info">
-                            <h4 style="font-size:1rem;">${m.user.nama_lengkap}</h4>
-                            <p>${m.profesi || 'Mentor'} · ${m.user.email}</p>
+                            <h4 style="font-size:1rem;">${m.nama}</h4>
+                            <p>${m.profesi || 'Mentor'} · ${m.email}</p>
                         </div>
                     </div>
                 `).join('');
@@ -334,46 +340,13 @@ function deleteTask(taskId) {
         });
 }
 
-// ── MENTOR ASSIGNMENT ─────────────────────────────────────────────
-function loadAvailableMentors() {
-    fetch('/api/mitra/mentors')
-        .then(r => r.json())
-        .then(d => {
-            if (d.status === 'success') {
-                const select = document.getElementById('mentor-select');
-                select.innerHTML = '<option value="">-- Pilih Mentor Terafiliasi --</option>' + 
-                    d.data.map(m => `<option value="${m.id}">${m.nama} (${m.profesi || 'Mentor'})</option>`).join('');
-            }
-        });
-}
-
-function assignMentor() {
-    const mentorId = document.getElementById('mentor-select').value;
-    if (!mentorId) return;
-
-    fetch(`/api/mitra/programs/${programId}/assign-mentor`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ mentor_id: mentorId })
-    })
-    .then(r => r.json())
-    .then(d => {
-        if (d.status === 'success') {
-            showToast('Mentor berhasil di-assign!');
-            loadProgramDetail();
-        } else {
-            showToast(d.message, 'error');
-        }
-    });
-}
-
 function loadLeaderboard() {
     fetch(`/api/mitra/programs/${programId}/leaderboard`)
         .then(r => r.json())
         .then(d => {
             const table = document.getElementById('leaderboard-table');
             if (d.status !== 'success' || !d.data.length) {
-                table.innerHTML = `<tr><td colspan="4" style="padding: 20px; text-align: center; color: var(--text-muted);">Belum ada data peringkat peserta.</td></tr>`;
+                table.innerHTML = `<tr><td colspan="5" style="padding: 20px; text-align: center; color: var(--text-muted);">Belum ada data peringkat peserta.</td></tr>`;
                 return;
             }
 
@@ -390,6 +363,14 @@ function loadLeaderboard() {
                         <td style="padding: 16px; ${rankStyle}">${rankEmoji}</td>
                         <td style="padding: 16px; font-weight: 600; color: var(--text);">${p.nama}</td>
                         <td style="padding: 16px; color: var(--text-muted);">${p.universitas}</td>
+                        <td style="padding: 16px;">
+                            <div style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+                                <span style="font-weight: 600; font-size: 0.9rem; color: var(--dash-accent); min-width: 36px; text-align: right;">${p.progress}%</span>
+                                <div style="width: 100px; background: #e2e8f0; height: 8px; border-radius: 4px; overflow: hidden; display: inline-block;">
+                                    <div style="width: ${p.progress}%; background: var(--dash-accent); height: 100%; border-radius: 4px;"></div>
+                                </div>
+                            </div>
+                        </td>
                         <td style="padding: 16px; font-weight: 700; color: var(--dash-accent);"><span class="material-icons icon-inline">auto_awesome</span>${p.total_poin}</td>
                     </tr>
                 `;

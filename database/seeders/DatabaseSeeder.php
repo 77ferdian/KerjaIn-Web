@@ -182,7 +182,9 @@ class DatabaseSeeder extends Seeder
         // 5. Seed Program Mentors (Assign Ahmad to Program 1)
         Program::find($program1Id)->mentors()->attach($mentorId, [
             'id' => (string) Str::uuid(),
-            'assigned_at' => now(),
+            'status' => 'disetujui',
+            'applied_at' => now(),
+            'reviewed_at' => now(),
         ]);
 
         // 6. Seed Tasks
@@ -456,6 +458,8 @@ class DatabaseSeeder extends Seeder
             'read_at' => null,
             'created_at' => now()->subDay(),
         ]);
+
+        $this->call(UserProgramDashboardSeeder::class);
     }
 }
 

@@ -30,7 +30,7 @@
 </nav>
 
 <!-- MAIN CONTENT -->
-<div class="dashboard-container" style="padding-top: 72px;">
+<div class="dashboard-container">
     <!-- DASHBOARD SIDEBAR -->
     <aside class="dash-sidebar">
         <div class="sidebar-header">
@@ -39,14 +39,29 @@
         <a class="nav-item" href="/pages/pelajar/dashboard">
             <span class="material-icons nav-icon">bar_chart</span> Dashboard
         </a>
-        <a class="nav-item" href="/pages/pelajar/profile?section=programs">
+        <a class="nav-item" href="/pages/pelajar/dashboard?section=programs">
             <span class="material-icons nav-icon">menu_book</span> Program Saya
+        </a>
+        <a class="nav-item" href="/pages/pelajar/certificates">
+            <span class="material-icons nav-icon">workspace_premium</span> Sertifikat
+        </a>
+        <a class="nav-item" href="/pages/pelajar/portfolios">
+            <span class="material-icons nav-icon">badge</span> Portofolio
         </a>
         <a class="nav-item" href="/pages/programs">
             <span class="material-icons nav-icon">search</span> Cari Program
         </a>
+        <a class="nav-item" href="/pages/pelajar/leaderboard">
+            <span class="material-icons nav-icon">emoji_events</span> Leaderboard
+        </a>
+        <a class="nav-item" href="/pages/pelajar/ranking">
+            <span class="material-icons nav-icon">military_tech</span> Ranking
+        </a>
         <a class="nav-item active" href="/pages/pelajar/profile">
             <span class="material-icons nav-icon">account_circle</span> Profil Saya
+        </a>
+        <a class="nav-item" href="/pages/messages">
+            <span class="material-icons nav-icon">email</span> Pesan
         </a>
     </aside>
 

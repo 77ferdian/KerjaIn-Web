@@ -27,26 +27,7 @@
 </nav>
 
 <div class="dashboard-container">
-    <aside class="dash-sidebar">
-        <div class="sidebar-header">
-            <h3>Menu Mitra</h3>
-        </div>
-        <a class="nav-item" href="/pages/mitra/dashboard">
-            <span class="material-icons nav-icon">bar_chart</span> Dashboard
-        </a>
-        <a class="nav-item" href="/pages/mitra/dashboard?section=programs">
-            <span class="material-icons nav-icon">menu_book</span> Kelola Program
-        </a>
-        <a class="nav-item" href="/pages/mitra/dashboard?section=mentors">
-            <span class="material-icons nav-icon">person</span> Mentor Saya
-        </a>
-        <a class="nav-item active" href="/pages/mitra/candidates">
-            <span class="material-icons nav-icon">search</span> Cari Kandidat
-        </a>
-        <a class="nav-item" href="/pages/mitra/profile">
-            <span class="material-icons nav-icon">account_circle</span> Profil Perusahaan
-        </a>
-    </aside>
+    @include('partials.mitra-sidebar')
 
     <main class="dash-main">
         <div class="dash-welcome">
@@ -55,9 +36,66 @@
         </div>
 
         <div class="dash-card" style="margin-bottom: 24px;">
-            <div style="display: flex; gap: 16px;">
-                <input type="text" id="search-universitas" placeholder="Filter Universitas..." style="flex: 1; padding: 12px; border-radius: 8px; border: 1px solid var(--dash-border);">
-                <input type="text" id="search-jurusan" placeholder="Filter Jurusan..." style="flex: 1; padding: 12px; border-radius: 8px; border: 1px solid var(--dash-border);">
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 16px; align-items: end; margin-bottom: 16px;">
+                <div style="display:flex; flex-direction:column; gap:8px;">
+                    <label for="filter-scope" style="font-weight:600;">Kategori Pelajar</label>
+                    <select id="filter-scope" style="width:100%; padding: 12px; border-radius: 8px; border: 1px solid var(--dash-border);">
+                        <option value="all">Seluruh Pelajar</option>
+                        <option value="mitra">Mengikuti Program Anda</option>
+                    </select>
+                </div>
+
+                <div style="display:flex; flex-direction:column; gap:8px;">
+                    <label for="filter-sort" style="font-weight:600;">Urutkan</label>
+                    <select id="filter-sort" style="width:100%; padding: 12px; border-radius: 8px; border: 1px solid var(--dash-border);">
+                        <option value="poin">Berdasarkan Total Poin</option>
+                        <option value="sertifikat">Berdasarkan Jumlah Sertifikat</option>
+                    </select>
+                </div>
+
+                <div style="display:flex; flex-direction:column; gap:8px;">
+                    <label for="search-universitas" style="font-weight:600;">Universitas</label>
+                    <select id="search-universitas" style="width:100%; padding: 12px; border-radius: 8px; border: 1px solid var(--dash-border);">
+                        <option value="">Semua universitas</option>
+                        <option value="UPN Veteran Jawa Timur">UPN Veteran Jawa Timur</option>
+                        <option value="Universitas Indonesia">Universitas Indonesia</option>
+                        <option value="Institut Teknologi Bandung">Institut Teknologi Bandung</option>
+                        <option value="Universitas Gadjah Mada">Universitas Gadjah Mada</option>
+                        <option value="Institut Teknologi Sepuluh Nopember">Institut Teknologi Sepuluh Nopember</option>
+                        <option value="Universitas Padjadjaran">Universitas Padjadjaran</option>
+                        <option value="Universitas Brawijaya">Universitas Brawijaya</option>
+                        <option value="Universitas Airlangga">Universitas Airlangga</option>
+                        <option value="Universitas Diponegoro">Universitas Diponegoro</option>
+                        <option value="Universitas Negeri Yogyakarta">Universitas Negeri Yogyakarta</option>
+                        <option value="Lainnya">Lainnya</option>
+                    </select>
+                    <div id="universitas-custom-wrap" style="display:none; gap:8px;">
+                        <input type="text" id="search-universitas-custom" placeholder="Ketikan universitas lain..." style="width:100%; padding: 12px; border-radius: 8px; border: 1px solid var(--dash-border);">
+                    </div>
+                </div>
+
+                <div style="display:flex; flex-direction:column; gap:8px;">
+                    <label for="search-jurusan" style="font-weight:600;">Jurusan</label>
+                    <select id="search-jurusan" style="width:100%; padding: 12px; border-radius: 8px; border: 1px solid var(--dash-border);">
+                        <option value="">Semua jurusan</option>
+                        <option value="Teknik Informatika">Teknik Informatika</option>
+                        <option value="Sistem Informasi">Sistem Informasi</option>
+                        <option value="Manajemen">Manajemen</option>
+                        <option value="Akuntansi">Akuntansi</option>
+                        <option value="Desain Komunikasi Visual">Desain Komunikasi Visual</option>
+                        <option value="Teknik Elektro">Teknik Elektro</option>
+                        <option value="Teknik Sipil">Teknik Sipil</option>
+                        <option value="Psikologi">Psikologi</option>
+                        <option value="Ilmu Komunikasi">Ilmu Komunikasi</option>
+                        <option value="Pendidikan Bahasa Inggris">Pendidikan Bahasa Inggris</option>
+                        <option value="Lainnya">Lainnya</option>
+                    </select>
+                    <div id="jurusan-custom-wrap" style="display:none; gap:8px;">
+                        <input type="text" id="search-jurusan-custom" placeholder="Ketikan jurusan lain..." style="width:100%; padding: 12px; border-radius: 8px; border: 1px solid var(--dash-border);">
+                    </div>
+                </div>
+            </div>
+            <div style="display:flex; justify-content:flex-end;">
                 <button class="btn-dash btn-dash-primary" onclick="loadCandidates()">Cari Talenta</button>
             </div>
         </div>
@@ -80,10 +118,21 @@
     }
 
     function loadCandidates() {
-        const univ = document.getElementById('search-universitas').value;
-        const jurusan = document.getElementById('search-jurusan').value;
-        
-        let url = `/api/mitra/candidates?`;
+        let univ = document.getElementById('search-universitas').value;
+        const univCustom = document.getElementById('search-universitas-custom').value.trim();
+        let jurusan = document.getElementById('search-jurusan').value;
+        const jurusanCustom = document.getElementById('search-jurusan-custom').value.trim();
+        const scope = document.getElementById('filter-scope').value;
+        const sort = document.getElementById('filter-sort').value;
+
+        if (univ === 'Lainnya') {
+            univ = univCustom;
+        }
+        if (jurusan === 'Lainnya') {
+            jurusan = jurusanCustom;
+        }
+
+        let url = `/api/mitra/candidates?scope=${encodeURIComponent(scope)}&sort_by=${encodeURIComponent(sort)}&`;
         if (univ) url += `universitas=${encodeURIComponent(univ)}&`;
         if (jurusan) url += `jurusan=${encodeURIComponent(jurusan)}`;
 
@@ -102,6 +151,40 @@
             });
     }
 
+    function updateCustomFields() {
+        const univSelect = document.getElementById('search-universitas');
+        const jurusanSelect = document.getElementById('search-jurusan');
+        const univCustomWrap = document.getElementById('universitas-custom-wrap');
+        const jurusanCustomWrap = document.getElementById('jurusan-custom-wrap');
+
+        if (univSelect.value === 'Lainnya') {
+            univSelect.style.display = 'none';
+            univCustomWrap.style.display = 'flex';
+        } else {
+            univSelect.style.display = 'block';
+            univCustomWrap.style.display = 'none';
+            document.getElementById('search-universitas-custom').value = '';
+        }
+
+        if (jurusanSelect.value === 'Lainnya') {
+            jurusanSelect.style.display = 'none';
+            jurusanCustomWrap.style.display = 'flex';
+        } else {
+            jurusanSelect.style.display = 'block';
+            jurusanCustomWrap.style.display = 'none';
+            document.getElementById('search-jurusan-custom').value = '';
+        }
+    }
+
+    document.getElementById('search-universitas').addEventListener('change', updateCustomFields);
+    document.getElementById('search-jurusan').addEventListener('change', updateCustomFields);
+    
+    // Add change listeners for quick reload
+    document.getElementById('filter-scope').addEventListener('change', loadCandidates);
+    document.getElementById('filter-sort').addEventListener('change', loadCandidates);
+
+    updateCustomFields();
+
     function renderCandidates(candidates) {
         const container = document.getElementById('candidates-container');
         if (candidates.length === 0) {
@@ -109,28 +192,58 @@
             return;
         }
 
-        container.innerHTML = candidates.map(c => `
-            <div class="dash-card" style="display: flex; flex-direction: column;">
-                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
+        container.innerHTML = candidates.map(c => {
+            let progressHtml = '';
+            if (c.mitra_programs && c.mitra_programs.length > 0) {
+                progressHtml = `
+                    <div style="margin-top: 12px; padding: 12px; background: #f8fafc; border-radius: 8px; border: 1px solid var(--dash-border);">
+                        <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px; letter-spacing: 0.5px;">Progress Program Anda:</div>
+                        ${c.mitra_programs.map(mp => `
+                            <div style="margin-bottom: 10px; margin-top: 4px;">
+                                <div style="display: flex; justify-content: space-between; font-size: 0.8rem; font-weight: 600; margin-bottom: 4px;">
+                                    <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 170px;" title="${mp.program_judul}">${mp.program_judul}</span>
+                                    <span style="color: var(--dash-accent);">${mp.progress}%</span>
+                                </div>
+                                <div style="width: 100%; background: #e2e8f0; height: 6px; border-radius: 3px; overflow: hidden;">
+                                    <div style="width: ${mp.progress}%; background: var(--dash-accent); height: 100%; border-radius: 3px;"></div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            return `
+                <div class="dash-card" style="display: flex; flex-direction: column; justify-content: space-between; min-height: 280px;">
                     <div>
-                        <h4 style="margin: 0 0 4px; font-size: 1.1rem;">${c.nama}</h4>
-                        <div style="font-size: 0.85rem; color: var(--text-muted);">${c.universitas || 'Universitas tidak diketahui'}</div>
-                        <div style="font-size: 0.85rem; color: var(--text-muted);">${c.jurusan || 'Jurusan tidak diketahui'}</div>
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; gap: 8px;">
+                            <div>
+                                <h4 style="margin: 0 0 4px; font-size: 1.1rem; font-weight: 700; color: var(--text-dark);">${c.nama}</h4>
+                                <div style="font-size: 0.85rem; color: var(--text-muted);">${c.universitas || 'Universitas tidak diketahui'}</div>
+                                <div style="font-size: 0.85rem; color: var(--text-muted);">${c.jurusan || 'Jurusan tidak diketahui'}</div>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 4px; align-items: flex-end;">
+                                <div style="background: var(--warning); color: #fff; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; white-space: nowrap; display: inline-flex; align-items: center; gap: 4px;">
+                                    <span class="material-icons" style="font-size: 14px;">auto_awesome</span>${c.total_poin || 0} Poin
+                                </div>
+                                <div style="background: #e0f2fe; color: #0369a1; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; white-space: nowrap; display: inline-flex; align-items: center; gap: 4px;">
+                                    <span class="material-icons" style="font-size: 14px;">workspace_premium</span>${c.certificates_count || 0} Sertif
+                                </div>
+                            </div>
+                        </div>
+                        <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 12px;">${c.bio || 'Belum ada bio.'}</p>
+                        ${progressHtml}
                     </div>
-                    <div style="background: var(--warning); color: #fff; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; white-space: nowrap; display: inline-flex; align-items: center; gap: 4px;">
-                        <span class="material-icons" style="font-size: 14px; display: inline-flex; align-items: center; justify-content: center;">auto_awesome</span>${c.total_poin || 0} Poin
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--dash-border);">
+                        <div style="font-size: 0.85rem; color: var(--dash-accent); font-weight: 600; display: inline-flex; align-items: center; gap: 4px;">
+                            <span class="material-icons" style="font-size:16px;">work</span>${c.total_portofolio} Portofolio
+                        </div>
+                        <a href="/profil/${c.id}" class="btn-dash btn-dash-outline" style="padding: 6px 12px; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 6px; color:#2563eb; border-color:#2563eb; font-weight: 600; border-radius: 6px;">Lihat Profil</a>
                     </div>
                 </div>
-                <p style="font-size: 0.9rem; color: var(--text-muted); flex: 1;">${c.bio || 'Belum ada bio.'}</p>
-                
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--dash-border);">
-                    <div style="font-size: 0.85rem; color: var(--dash-accent); font-weight: 600;">
-                        <span class="material-icons icon-inline">work</span>${c.total_portofolio} Portofolio
-                    </div>
-                    <a href="/profil/${c.id}" target="_blank" class="btn-dash btn-dash-outline" style="padding: 6px 12px; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 6px;">Lihat Profil <span class="material-icons" style="font-size: 14px;">open_in_new</span></a>
-                </div>
-            </div>
-        `).join('');
+            `;
+        }).join('');
     }
 </script>
 <script src="{{ asset('js/dashboard-global.js') }}"></script>
