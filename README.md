@@ -6,6 +6,15 @@ KerjaIn-Web is a web-based platform designed to help users discover job opportun
 
 This project was created to provide a digital solution for job searching and recruitment processes. The platform aims to simplify the way users explore opportunities, review job information, and manage related activities through a single application.
 
+## Tech Stack
+
+![PHP](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white)
+![Laravel](https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)
+![Blade](https://img.shields.io/badge/Blade-F2F2F2?style=for-the-badge&logo=laravel&logoColor=FF2D20)
+![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
+![Bootstrap](https://img.shields.io/badge/Bootstrap-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+
 ## Features
 
 - Job listing and search interface
@@ -14,15 +23,6 @@ This project was created to provide a digital solution for job searching and rec
 - Clean and maintainable application structure
 - Easy extension for future feature development
 - Simple deployment-ready architecture
-
-## Tech Stack
-
-- Frontend: Blade Template
-- Backend: PHP
-- Framework: Laravel
-- Styling: Bootstrap / CSS
-- Database: MySQL
-- Tools: Composer, Git, GitHub
 
 ## Project Structure
 
