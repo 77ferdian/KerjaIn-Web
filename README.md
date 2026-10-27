@@ -1,92 +1,137 @@
 # KerjaIn-Web
 
-Profesional web application untuk platform pekerjaan (KerjaIn) dibangun dengan Laravel.
+KerjaIn-Web is a web-based platform designed to help users discover job opportunities and connect with relevant openings in a more efficient and structured way.
 
-## Ringkasan
-KerjaIn-Web adalah frontend/backend aplikasi web untuk mencari dan mengelola lowongan pekerjaan, melamar pekerjaan, dan mengelola profil pengguna. Proyek ini menggunakan Laravel sebagai kerangka kerja utama, Blade untuk templating, serta JavaScript dan CSS untuk interaksi dan styling.
+## Overview
 
-## Fitur Utama
-- Autentikasi pengguna (registrasi, login, reset kata sandi)
-- Manajemen profil pengguna
-- Pencarian dan pemfilteran lowongan kerja
-- Melamar pekerjaan melalui UI
-- Panel admin untuk mengelola lowongan dan pengguna
+This project was created to provide a digital solution for job searching and recruitment processes. The platform aims to simplify the way users explore opportunities, review job information, and manage related activities through a single application.
 
-## Teknologi
-- Bahasa: PHP
+## Features
+
+- Job listing and search interface
+- User-friendly navigation
+- Responsive layout for desktop and mobile devices
+- Clean and maintainable application structure
+- Easy extension for future feature development
+- Simple deployment-ready architecture
+
+## Tech Stack
+
+- Frontend: Blade Template
+- Backend: PHP
 - Framework: Laravel
-- Templating: Blade
-- Frontend: HTML, CSS, JavaScript
-- Database: MySQL / MariaDB (direkomendasikan)
+- Styling: Bootstrap / CSS
+- Database: MySQL
+- Tools: Composer, Git, GitHub
 
-## Persyaratan
-- PHP 8.0+
+## Project Structure
+
+```bash
+KerjaIn-Web/
+├── app/
+├── bootstrap/
+├── config/
+├── database/
+├── public/
+├── resources/
+├── routes/
+├── storage/
+├── tests/
+├── composer.json
+├── package.json
+├── README.md
+├── .env.example
+├── .gitignore
+└── artisan
+```
+
+## Getting Started
+
+### Prerequisites
+
+Before running this project, make sure you have the following installed:
+
+- PHP 8.1 or later
 - Composer
-- Node.js & npm atau yarn (untuk asset)
-- MySQL atau MariaDB
+- MySQL
+- Node.js and npm
+- Git
 
-## Instalasi (Lokal)
-1. Clone repository:
+### Installation
 
-   git clone https://github.com/77ferdian/KerjaIn-Web.git
-   cd KerjaIn-Web
+1. Clone the repository
 
-2. Install dependensi PHP:
+```bash
+git clone https://github.com/77ferdian/KerjaIn-Web.git
+cd KerjaIn-Web
+```
 
-   composer install
+2. Install PHP dependencies
 
-3. Install dependensi frontend:
+```bash
+composer install
+```
 
-   npm install
-   # atau
-   yarn install
+3. Install frontend dependencies
 
-4. Copy file environment dan sesuaikan:
+```bash
+npm install
+```
 
-   cp .env.example .env
-   php artisan key:generate
+4. Configure environment variables
 
-5. Konfigurasi database di file `.env` (DB_DATABASE, DB_USERNAME, DB_PASSWORD)
+```bash
+cp .env.example .env
+```
 
-6. Jalankan migrasi dan seeder (jika ada):
+Update the database and application configuration in the `.env` file according to your local environment.
 
-   php artisan migrate --seed
+5. Generate the application key
 
-7. Bangun asset frontend (opsional untuk development):
+```bash
+php artisan key:generate
+```
 
-   npm run dev
-   # atau
-   yarn dev
+6. Run the database migrations
 
-8. Jalankan server development:
+```bash
+php artisan migrate
+```
 
-   php artisan serve
+7. Start the application
 
-Akses pada: http://127.0.0.1:8000
+```bash
+php artisan serve
+```
 
-## Pengujian
-Jalankan test (jika tersedia):
+The application will be available at:
 
-   php artisan test
+```bash
+http://localhost:8000
+```
 
-## Struktur Proyek (Singkat)
-- app/ - kode aplikasi (models, controllers, policies)
-- resources/views/ - file Blade templates
-- routes/ - definisi rute aplikasi
-- database/ - migrasi dan seeders
-- public/ - asset publik (CSS, JS, gambar)
+## Usage
 
-## Kontribusi
-Terima kasih atas minat Anda berkontribusi. Silakan ikuti langkah berikut:
-1. Fork repository ini.
-2. Buat branch fitur: `git checkout -b feat/nama-fitur`.
-3. Commit perubahan: `git commit -m "deskripsi singkat"`.
-4. Push ke branch Anda dan buat Pull Request.
+After the application is running, users can access the platform and explore job opportunities through a structured, clean, and user-friendly interface.
 
-Mohon sertakan deskripsi perubahan dan langkah untuk mereproduksi/menjalankan fitur.
+## Configuration
 
-## Lisensi
-Proyek ini dilisensikan di bawah lisensi MIT. Lihat file LICENSE untuk detail.
+Configuration values such as database credentials, app URL, and local environment settings should be managed in the `.env` file before running the project in development or production.
 
-## Kontak
-Jika ada pertanyaan atau ingin berdiskusi, hubungi pemilik repository: https://github.com/77ferdian
+## Contributing
+
+Contributions are welcome. To contribute:
+
+1. Fork the repository
+2. Create a new feature branch
+3. Commit your changes
+4. Push your branch
+5. Open a pull request
+
+## License
+
+This project is licensed under the MIT License. See the LICENSE file for details.
+
+## Contact
+
+For questions, collaboration, or further information, please contact the project maintainer through the GitHub profile.
